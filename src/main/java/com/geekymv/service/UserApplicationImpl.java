@@ -14,14 +14,14 @@ public class UserApplicationImpl implements UserApplication {
 	private static Map<String, User> users = new HashMap<String, User>();
 	
 	public UserApplicationImpl() {
-		users.put("张三", new User("张三", "123"));
-		users.put("李四", new User("李四", "123"));
-		users.put("王五", new User("王五", "123"));
+		users.put("1", new User("1", "张三", "123"));
+		users.put("2", new User("2", "李四", "123"));
+		users.put("3", new User("3", "王五", "123"));
 	}
 	
 	@Override
-	public User getUsers(String name) {
-		return users.get(name);
+	public User getUsers(String userId) {
+		return users.get(userId);
 	}
 
 }

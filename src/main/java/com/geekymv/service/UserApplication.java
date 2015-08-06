@@ -13,7 +13,7 @@ import com.geekymv.pojo.User;
 public interface UserApplication {
 
 	@GET
-	@Path(value="/users/{name}")
-	public User getUsers(@PathParam("name")String name);
+	@Path(value="/users/{userId}")
+	public User getUsers(@PathParam("userId")String userId);
 	
 }
