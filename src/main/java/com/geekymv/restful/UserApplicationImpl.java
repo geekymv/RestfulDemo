@@ -1,4 +1,4 @@
-package com.geekymv.service;
+package com.geekymv.restful;
 
 import java.util.HashMap;
 import java.util.Map;

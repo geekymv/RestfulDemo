@@ -1,4 +1,4 @@
-package com.geekymv.service;
+package com.geekymv.restful;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
