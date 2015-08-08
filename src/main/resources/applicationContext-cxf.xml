@@ -1,55 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
-    xmlns:cxf="http://cxf.apache.org/core"
-    xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-        http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
-        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
-    <!--
-    <import resource="classpath*:META-INF/cxf/cxf.xml" />
-    <import resource="classpath*:META-INF/cxf/cxf-servlet.xml" />
-    <import resource="classpath*:META-INF/cxf/cxf-extension-soap.xml" />
-    -->
- 
-    <http-conf:destination name="*.http-destination">
-        <http-conf:server ReceiveTimeout="10000" />
-    </http-conf:destination>
- 
-    <bean id="jacksonObjectMapper"
-        class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"></bean>
- 
-    <bean id="jacksonProvider"
-        class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider">
-        <property name="mapper" ref="jacksonObjectMapper" />
-    </bean>
-     
-    <jaxrs:server id="mamApplication" address="/">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:configuration="http://cxf.apache.org/transports/http/configuration"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    
+    <!-- REST 服务所需的 Provider -->
+	<bean id="jacksonJsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"></bean>
+	<bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
+	<bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
+    
+	<!-- Swagger API listing resource -->
+	<bean id="swaggerResourceJSON" class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON" />
+	
+	<!-- Swagger writers -->
+	<bean id="resourceWriter" class="com.wordnik.swagger.jaxrs.listing.ResourceListingProvider" />
+	<bean id="apiWriter" class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider" />
+	
+    <jaxrs:server id="swagger" address="/rest">
         <jaxrs:features>
             <cxf:logging />
         </jaxrs:features>
         <jaxrs:serviceBeans>
-            <!-- 用户管理-->
-            <ref bean="userApplication" />
+        	<list>
+		    	<ref bean="userApplication" />
+				<ref bean="swaggerResourceJSON" />
+        	</list>
         </jaxrs:serviceBeans>
         
-        <jaxrs:extensionMappings>
-            <entry key="feed" value="application/atom+xml" />
-            <entry key="json" value="application/json" />
-            <entry key="xml" value="application/xml" />
-            <entry key="html" value="text/html" />
-        </jaxrs:extensionMappings>
         <jaxrs:providers>
-            <ref bean="jacksonProvider"/>
+            <ref bean="jacksonJsonProvider"/>
+			<ref bean="resourceWriter" />
+            <ref bean="apiWriter" />
         </jaxrs:providers>
     </jaxrs:server>
-   
+     
+   <!-- this scans the classes for resources -->
+	<bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
+	  <property name="resourcePackage" value="com.geekymv.restful"/>
+	  <property name="version" value="1.0.0"/>
+	  <property name="basePath" value="http://localhost/restful/services/rest"/>
+	  <property name="title" value="Petstore sample app"/>
+	  <property name="description" value="This is a app."/>
+	  <property name="contact" value="apiteam@wordnik.com"/>
+	  <property name="license" value="Apache 2.0 License"/>
+	  <property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+	  <property name="scan" value="true"/>
+	</bean>
 </beans>

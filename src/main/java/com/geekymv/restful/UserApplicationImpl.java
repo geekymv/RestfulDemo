@@ -3,12 +3,11 @@ package com.geekymv.restful;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Named;
+import org.springframework.stereotype.Service;
 
 import com.geekymv.pojo.User;
 
-
-@Named("userApplication")
+@Service(value="userApplication")
 public class UserApplicationImpl implements UserApplication {
 	// 模拟数据
 	private static Map<String, User> users = new HashMap<String, User>();
