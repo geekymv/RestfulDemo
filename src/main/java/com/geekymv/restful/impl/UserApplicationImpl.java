@@ -1,4 +1,4 @@
-package com.geekymv.restful;
+package com.geekymv.restful.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.geekymv.pojo.User;
+import com.geekymv.restful.UserApplication;
 
 @Service(value="userApplication")
 public class UserApplicationImpl implements UserApplication {
