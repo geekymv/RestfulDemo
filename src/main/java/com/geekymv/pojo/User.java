@@ -6,6 +6,14 @@ import com.sun.xml.txw2.annotation.XmlElement;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+/**
+ * 用户类
+ * @desc: RestfulDemo
+ * @author: miying@iflytek.com
+ * @createTime: 2015年8月8日 下午10:09:49
+ * @history:
+ * @version: v1.0
+ */
 @ApiModel(value="用户Model")
 @XmlRootElement(name="user")
 public class User {

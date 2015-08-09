@@ -17,6 +17,8 @@
     
     <!-- REST 服务所需的 Provider -->
 	<bean id="jacksonJsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"></bean>
+	
+	<!-- 拦截器 -->
 	<bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"></bean>
 	<bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"></bean>
     
@@ -28,9 +30,12 @@
 	<bean id="apiWriter" class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider" />
 	
     <jaxrs:server id="swagger" address="/rest">
+    	<!-- 
         <jaxrs:features>
             <cxf:logging />
         </jaxrs:features>
+         -->
+         
         <jaxrs:serviceBeans>
         	<list>
 		    	<ref bean="userApplication" />
@@ -38,11 +43,21 @@
         	</list>
         </jaxrs:serviceBeans>
         
+        <jaxrs:inInterceptors>
+			<!-- 请求日志 -->
+			<ref bean="loggingInInterceptor"/>
+		</jaxrs:inInterceptors>
+		<jaxrs:outInterceptors>
+			<!-- 响应日志 -->
+			<ref bean="loggingOutInterceptor"/>
+		</jaxrs:outInterceptors>
+		
         <jaxrs:providers>
             <ref bean="jacksonJsonProvider"/>
 			<ref bean="resourceWriter" />
             <ref bean="apiWriter" />
         </jaxrs:providers>
+        
     </jaxrs:server>
      
    <!-- this scans the classes for resources -->
