@@ -3,6 +3,8 @@ package com.geekymv.restful.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Service;
 
 import com.geekymv.pojo.User;
@@ -22,6 +24,23 @@ public class UserApplicationImpl implements UserApplication {
 	@Override
 	public User getUsers(String userId) {
 		return users.get(userId);
+	}
+
+	@Override
+	public User createUser(User user) {
+		return new User("4", user.getName(), user.getPwd());
+	}
+
+	@Override
+	public String deleteUser(String userId) {
+		System.out.println("delete user...");
+		return  JSONObject.fromObject("{\"returnFlag\": \"success\"}").toString();
+	}
+
+	@Override
+	public User updateUser(User user) {
+		
+		return new User(user.getId(), user.getName(), user.getPwd());
 	}
 
 }

@@ -6,15 +6,69 @@
 </head>
 <body>
 	
+	<button id="get">get</button>
+	<button id="delete">delete</button>
+	<button id="put">put</button>
+	<button id="post">post</button>
+	
 	<script type="text/javascript" src="resources/js/jquery-1.8.3.min.js"></script>
 	
 	<script type="text/javascript">
-		$.get('services/rest/users/2').done(function(data) {
-			debugger
-			console.log(data);
+		$(function() {
+			$('#get').click(function() {
+				$.ajax({
+					url: 'services/rest/users/1',
+					type: 'GET',
+					dataType: "json",
+					contentType: 'application/json',
+					success: function(data) {
+						console.log(data);
+					}			
+				});
+			});
+
+			$('#delete').click(function() {
+				$.ajax({
+					url: 'services/rest/user',
+					type: 'DELETE',
+					data: JSON.stringify({'userId': '1'}),
+					dataType: "json",
+					contentType: 'application/json',
+					success: function(data) {
+						console.log(data);
+					}			
+				});
+			});
 			
-		}).fail(function(res) {
-		});
+			$('#put').click(function() {
+				$.ajax({
+					url: 'services/rest/user',
+					type: 'PUT',
+					data: JSON.stringify({'id': '1', 'name': 'lisi', 'pwd': 'hello'}),
+					dataType: "json",
+					contentType: 'application/json',
+					success: function(data) {
+						console.log(data);
+					}			
+				});
+			});
+			
+			$('#post').click(function() {
+				$.ajax({
+					url: 'services/rest/user',
+					type: 'POST',
+					data: JSON.stringify({'name': '张三', 'pwd': '1234'}),
+					dataType: "json",
+					contentType: 'application/json',
+					success: function(data) {
+						console.log(data);
+					}			
+				});
+			});
+			
+		})
+	
+		
 	</script>
 </body>
 </html>
