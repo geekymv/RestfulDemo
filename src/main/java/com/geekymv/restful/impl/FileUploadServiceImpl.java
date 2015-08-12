@@ -7,8 +7,6 @@ import java.io.OutputStream;
 import java.util.List;
 
 import javax.activation.DataHandler;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
