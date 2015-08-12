@@ -39,6 +39,7 @@
         <jaxrs:serviceBeans>
         	<list>
 		    	<ref bean="userApplication" />
+		    	<ref bean="fileUploadService"/>
 				<ref bean="swaggerResourceJSON" />
         	</list>
         </jaxrs:serviceBeans>
